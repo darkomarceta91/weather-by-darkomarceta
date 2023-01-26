@@ -73,7 +73,7 @@ setInterval(clockHandler, 1000);
 const dateHandler = () => {
   const now = new Date();
 
-  return `${days[now.getDay()]}, ${now.getDay()} ${
+  return `${days[now.getDay()]}, ${now.getDate()} ${
     months[now.getMonth()]
   } ${now.getFullYear()}`;
 };
@@ -195,7 +195,7 @@ const enterSubmit = (event) => {
     event.currentTarget.value = "";
     weatherApi(cityNameFromInput);
 
-    fullDate.innerHTML = dateHandler();
+    // fullDate.innerHTML = dateHandler();
   }
 };
 
@@ -207,7 +207,7 @@ const buttonSubmit = (event) => {
   inputField.value = "";
   weatherApi(cityNameFromInput);
 
-  fullDate.innerHTML = dateHandler();
+  // fullDate.innerHTML = dateHandler();
 };
 
 inputField.addEventListener("keyup", enterSubmit);

@@ -26,7 +26,7 @@ button {
   margin: auto;
   height: auto;
   max-width: 1000px;
-  min-width: 453px;
+  /* min-width: 453px; */
 }
 .background {
   background-image: url(img/yellow-wheat-field-dark-blue-sky.jpg);
@@ -56,7 +56,7 @@ button {
 }
 
 .clock1 {
-  font-size: 69px;
+  font-size: max(5vw, 60px);
 }
 .footer {
   text-align: end;
@@ -190,6 +190,26 @@ button {
   }
   .label1 {
     margin-top: 0;
+  }
+  .clock1 {
+    color: rgb(38, 67, 92);
+    text-align: center;
+  }
+  .date1 {
+    color: rgb(38, 67, 92);
+    text-align: center;
+    font-weight: 800;
+    padding-bottom: 1rem;
+  }
+  .container1 {
+    display: block;
+  }
+  .city1,
+  .country1 {
+    text-align: center;
+    color: rgb(38, 67, 92);
+    font-size: large;
+    font-weight: 600;
   }
 }
 
