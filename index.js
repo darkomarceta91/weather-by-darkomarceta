@@ -29,7 +29,6 @@ const days = [
   "Friday",
   "Saturday",
 ];
-const daysUppercase = days.map((element) => element.toUpperCase());
 
 const months = [
   "January",
@@ -64,6 +63,7 @@ const clockHandler = () => {
     (now.getMinutes() < 10 ? "0" : "") +
     now.getMinutes() +
     ":" +
+    (now.getSeconds() < 10 ? "0" : "") +
     now.getSeconds();
   clock.innerHTML = clockString;
 };
@@ -83,10 +83,14 @@ fullDate.innerHTML = dateHandler();
 const weekDaysHandler = () => {
   const newDate = new Date();
   const today = newDate.getDay();
-  button3.innerHTML = `${daysUppercase[today + 1].slice(0, 3)}`;
-  button4.innerHTML = `${daysUppercase[today + 2].slice(0, 3)}`;
-  button5.innerHTML = `${daysUppercase[today + 3].slice(0, 3)}`;
-  button6.innerHTML = `${daysUppercase[today + 4].slice(0, 3)}`;
+  const showOnlyThreeDigits = (day) => {
+    const daysUppercase = days.map((element) => element.toUpperCase());
+    return `${daysUppercase[today + day].slice(0, 3)}`;
+  };
+  button3.innerHTML = showOnlyThreeDigits(1);
+  button4.innerHTML = showOnlyThreeDigits(2);
+  button5.innerHTML = showOnlyThreeDigits(3);
+  button6.innerHTML = showOnlyThreeDigits(4);
 };
 weekDaysHandler();
 
@@ -118,56 +122,31 @@ async function weatherApi(city) {
     }
     const json = await response.json();
     /////////////////////// SETTING TEMPERATURES //////////////////////
-    const currentTemperature = Math.round(json.list[0].main.temp);
-    const secondTemperature = Math.round(json.list[1].main.temp);
-    const thirdTemperature = Math.round(json.list[2].main.temp);
-    const forthTemperature = Math.round(json.list[3].main.temp);
-    const fifthTemperature = Math.round(json.list[4].main.temp);
-    document.querySelector(".temp1").innerHTML = currentTemperature + "°";
-    document.querySelector(".temp2").innerHTML = secondTemperature + "°";
-    document.querySelector(".temp3").innerHTML = thirdTemperature + "°";
-    document.querySelector(".temp4").innerHTML = forthTemperature + "°";
-    document.querySelector(".temp5").innerHTML = fifthTemperature + "°";
+    const settingTemperature = (day) => {
+      const currentTemperature = Math.round(json.list[day].main.temp);
+      document.querySelector(`.temp${day + 1}`).innerHTML =
+        currentTemperature + "°";
+    };
+    settingTemperature(0);
+    settingTemperature(1);
+    settingTemperature(2);
+    settingTemperature(3);
+    settingTemperature(4);
+
     /////////////////// GENERATING ICONS ////////////////////
-    const currentIcon = json.list[0].weather[0].icon;
-    const changeicon = currentIcon.slice(0, -1);
-    const fullnameofIcon = changeicon + "d";
 
-    document.querySelector(
-      ".icon1"
-    ).src = `http://openweathermap.org/img/wn/${fullnameofIcon}@4x.png`;
+    const iconName = (day) => {
+      const currentIcon = json.list[day].weather[0].icon;
+      const changeicon = currentIcon.slice(0, -1);
+      const fullnameofIcon = changeicon + "d";
+      return `http://openweathermap.org/img/wn/${fullnameofIcon}@4x.png`;
+    };
 
-    const secondIcon = json.list[1].weather[0].icon;
-    const changeicon1 = secondIcon.slice(0, -1);
-    const fullnameofIcon1 = changeicon1 + "d";
-
-    document.querySelector(
-      ".icon2"
-    ).src = `http://openweathermap.org/img/wn/${fullnameofIcon1}@2x.png`;
-
-    const thirdIcon = json.list[2].weather[0].icon;
-    const changeicon2 = thirdIcon.slice(0, -1);
-    const fullnameofIcon2 = changeicon2 + "d";
-
-    document.querySelector(
-      ".icon3"
-    ).src = `http://openweathermap.org/img/wn/${fullnameofIcon2}@2x.png`;
-
-    const forthIcon = json.list[3].weather[0].icon;
-    const changeicon3 = forthIcon.slice(0, -1);
-    const fullnameofIcon3 = changeicon3 + "d";
-
-    document.querySelector(
-      ".icon4"
-    ).src = `http://openweathermap.org/img/wn/${fullnameofIcon3}@2x.png`;
-
-    const fifthIcon = json.list[4].weather[0].icon;
-    const changeicon4 = fifthIcon.slice(0, -1);
-    const fullnameofIcon4 = changeicon4 + "d";
-
-    document.querySelector(
-      ".icon5"
-    ).src = `http://openweathermap.org/img/wn/${fullnameofIcon4}@2x.png`;
+    document.querySelector(".icon1").src = iconName(0);
+    document.querySelector(".icon2").src = iconName(1);
+    document.querySelector(".icon3").src = iconName(2);
+    document.querySelector(".icon4").src = iconName(3);
+    document.querySelector(".icon5").src = iconName(4);
     /////////////////////CHANGING CITY NAME AND COUNTRY NAME ////////////////
 
     displaycityName.innerHTML = json.city.name;
